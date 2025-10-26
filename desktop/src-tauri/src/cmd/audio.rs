@@ -20,7 +20,8 @@ type WavWriterHandle = Arc<Mutex<Option<hound::WavWriter<BufWriter<File>>>>>;
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AudioDevice {
-    pub is_default: bool,
+    pub is_default_input: bool,
+    pub is_default_output: bool,
     pub is_input: bool,
     pub id: String,
     pub name: String,
@@ -50,7 +51,8 @@ pub fn get_audio_devices() -> Result<Vec<AudioDevice>> {
         let is_input = device.default_input_config().is_ok();
 
         let audio_device = AudioDevice {
-            is_default: is_default_in || is_default_out,
+            is_default_input: is_default_in,
+            is_default_output: is_default_out,
             is_input,
             id: device_index.to_string(),
             name,
@@ -60,7 +62,8 @@ pub fn get_audio_devices() -> Result<Vec<AudioDevice>> {
 
     #[cfg(target_os = "macos")]
     audio_devices.push(AudioDevice {
-        is_default: true,
+        is_default_input: false,
+        is_default_output: true,
         is_input: false,
         id: "screencapturekit".to_string(),
         name: "Speakers".into(),

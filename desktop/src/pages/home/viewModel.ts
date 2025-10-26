@@ -191,8 +191,8 @@ export function viewModel() {
 
 	async function loadAudioDevices() {
 		let newDevices = await invoke<AudioDevice[]>('get_audio_devices')
-		const defaultInput = newDevices.find((d) => d.isDefault && d.isInput)
-		const defaultOutput = newDevices.find((d) => d.isDefault && !d.isInput)
+		const defaultInput = newDevices.find((d) => d.isDefaultInput)
+		const defaultOutput = newDevices.find((d) => d.isDefaultOutput)
 		if (defaultInput) {
 			setInputDevice(defaultInput)
 		}

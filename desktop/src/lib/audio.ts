@@ -1,5 +1,6 @@
 export interface AudioDevice {
-    isDefault: boolean;
+    isDefaultInput: boolean;
+    isDefaultOutput: boolean;
     isInput: boolean;
     id: string;
     name: string;
